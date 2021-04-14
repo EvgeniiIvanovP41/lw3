@@ -35,7 +35,7 @@ window.onload = function () {
     }
   }
   function sort() {
-    if (listingElements[0] > listingElements[1]) {
+    if (listingElements[0] > listingElements[1] || storeElements[0] > storeElements[1]) {
       listingElements = listingElements.sort();
       storeElements = storeElements.sort();
     } else {
@@ -101,18 +101,25 @@ window.onload = function () {
     sort();
     updateUI();
   };
+
   renameButton.onclick = function () {
-    let newName = prompt("Enter new name");
-    if (document.querySelector(".store-select option:checked") !== null) {
-      var selectedOption = document.querySelector(
-        ".store-select option:checked"
-      );
-      rename(selectedOption.innerText, storeElements, newName);
-    } else {
+    if (document.querySelector(".listing-select option:checked") !== null) {
       var selectedOption = document.querySelector(
         ".listing-select option:checked"
       );
-      rename(selectedOption.innerText, listingElements, newName);
+      let newName = prompt("Enter new name", selectedOption.innerText);
+      selectedOption = document.querySelector(
+        ".store-select option:checked"
+      );
+      try {
+        if (selectedOption.innerText !== "") {
+          rename(selectedOption.innerText, storeElements, newName);
+        }
+      } catch (error) {
+
+      }
+    } else {
+      alert("Choose element");
     }
     updateUI();
   };
